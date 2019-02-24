@@ -1,4 +1,4 @@
-# physicon
+# Showcase
 
 > A Vue.js project
 
