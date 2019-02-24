@@ -12,17 +12,17 @@
 			</div>
 			<div class="col-md-3">
 				<select v-model="currentSub">
-					<option value>Все предметы</option>
-					<option v-for="subject in subjects">
-				    	{{ subject }}
+					<option value>Все жанры</option>
+					<option v-for="genre in genres">
+				    	{{ genre }}
 					</option>
 				</select>
 			</div>
 			<div class="col-md-3">
 				<select v-model="currentSub">
-					<option value>Все предметы</option>
-					<option v-for="subject in subjects">
-				    	{{ subject }}
+					<option value>Все классы</option>
+					<option v-for="grade in grades">
+				    	{{ grade }}
 					</option>
 				</select>
 			</div>
@@ -65,7 +65,9 @@ export default {
     			imageLink:'https://www.imumk.ru/svc/coursecover/',
     			currentSub:'',
      			books:{},
-     			subjects:[]
+     			subjects:[],
+     			genres:[],
+     			grades:[]
     	}
   	},
 	methods:{
@@ -96,9 +98,12 @@ export default {
 	      	this.books = books; 
 	      	for( var i = 0; i < this.books.items.length; i++)  {
 	      		this.subjects[i] = this.books.items[i].subject;
-	      	}	
-	      	console.log(this.books);      	
+	      		this.genres[i] = this.books.items[i].genre;
+	      		this.grades[i] = this.books.items[i].grade.split(';')[0];
+	      	}	     	
 	      	this.subjects = this.getFilter(this.subjects);
+	      	this.genres = this.getFilter(this.genres);
+	      	this.grades = this.getFilter(this.grades).sort((a,b) => a - b);
 	    });
 	}  
 }
