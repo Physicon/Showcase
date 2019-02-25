@@ -97,22 +97,25 @@ export default {
 			return this.booksDefault;
 		},
 		setFilter(){
-			let filtered = [];
-			console.log('book-', this.books.items)
-			//console.log('pre - ',filtered);
-			for (var i = 0; i < this.books.items.length; i++) {
+			var filtered = [];
+			this.booksDefault = [];
+			var tmp = [];
+			tmp =  this.books.items;
+			console.log('book-', tmp);
+			console.log('pre - filtered',JSON.stringify(filtered));
+			for (var i = 0; i < tmp.length; i++) {
+				console.log('fafa-', tmp[i]);
 				if(
 					(
-						((this.books.items[i].subject == this.currentSubject) || (this.currentSubject =='')) && 
-						((this.books.items[i].genre == this.currentGenre) || (this.currentGenre =='')) && 
-						((this.books.items[i].grade == this.currentGrade) || (this.currentGrade ==''))
+						((tmp[i].subject == this.currentSubject) || (this.currentSubject == '')) && 
+						((tmp[i].genre == this.currentGenre) || (this.currentGenre == '')) && 
+						((tmp[i].grade == this.currentGrade) || (this.currentGrade == ''))
 					)){
-					filtered[i] = this.books.items[i]
+					//filtered.push(tmp[i]);
+					this.booksDefault.push(tmp[i]);
 				}
 			}
-
-			this.booksDefault = filtered;
-			console.log('after - ',this.booksDefault);
+			console.log('after - ',JSON.stringify(this.booksDefault));
 			//this.booksDefault = this.booksDefault.splice(0,this.booksDefault.length)
 			return this.booksDefault;
 			
