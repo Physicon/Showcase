@@ -3,24 +3,27 @@
   	<div class="filters-wrapp">
   		<div class="row">
 		  	<div class="col-md-3">
-				<select v-model="currentSub">
-					<option value>Все предметы</option>
+		  		{{currentSubject}}
+				<select v-model="currentSubject" @change="setFilter()">
+					<option value="" >Все предметы</option>
 					<option v-for="subject in subjects">
 				    	{{ subject }}
 					</option>
 				</select>
 			</div>
 			<div class="col-md-3">
-				<select v-model="currentSub">
-					<option value>Все жанры</option>
+				{{currentGenre}}
+				<select v-model="currentGenre" @change="setFilter()">
+					<option value="" >Все жанры</option>
 					<option v-for="genre in genres">
 				    	{{ genre }}
 					</option>
 				</select>
 			</div>
 			<div class="col-md-3">
-				<select v-model="currentSub">
-					<option value>Все классы</option>
+				{{currentGrade}}
+				<select v-model="currentGrade" @change="setFilter()">
+					<option value="" >Все классы</option>
 					<option v-for="grade in grades">
 				    	{{ grade }}
 					</option>
@@ -35,7 +38,8 @@
 				</div>
 			</div>
 		</div>	
-	</div>	
+	</div>
+
 	<ul class="items-list">
 		<li class="item" v-for="(book,index) in getData()">
 			<div class="item-img">
@@ -63,12 +67,18 @@ export default {
   		data () {
     		return {
     			imageLink:'https://www.imumk.ru/svc/coursecover/',
-    			currentSub:'',
+    			currentSubject:'',
+    			currentGenre:'',
+    			currentGrade:'',
      			books:{},
+     			booksDefault:{},
      			subjects:[],
      			genres:[],
      			grades:[]
     	}
+  	},
+  	computed:{
+
   	},
 	methods:{
 		getFilter(arr){
@@ -83,9 +93,30 @@ export default {
 		    }
 		    return unique;
 		},
-		getData(){
-			console.log(this.books.items);
-			return this.books.items;
+		getData(){			
+			return this.booksDefault;
+		},
+		setFilter(){
+			let filtered = [];
+			console.log('book-', this.books.items)
+			//console.log('pre - ',filtered);
+			for (var i = 0; i < this.books.items.length; i++) {
+				if(
+					(
+						((this.books.items[i].subject == this.currentSubject) || (this.currentSubject =='')) && 
+						((this.books.items[i].genre == this.currentGenre) || (this.currentGenre =='')) && 
+						((this.books.items[i].grade == this.currentGrade) || (this.currentGrade ==''))
+					)){
+					filtered[i] = this.books.items[i]
+				}
+			}
+
+			this.booksDefault = filtered;
+			console.log('after - ',this.booksDefault);
+			//this.booksDefault = this.booksDefault.splice(0,this.booksDefault.length)
+			return this.booksDefault;
+			
+			//console.log(JSON.stringify(filtered));
 		}
 	},
 	created(){
@@ -104,6 +135,8 @@ export default {
 	      	this.subjects = this.getFilter(this.subjects);
 	      	this.genres = this.getFilter(this.genres);
 	      	this.grades = this.getFilter(this.grades).sort((a,b) => a - b);
+	      	this.booksDefault = this.books.items;
+	      	console.log('we are here', this.booksDefault);
 	    });
 	}  
 }
