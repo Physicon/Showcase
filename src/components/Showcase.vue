@@ -1,5 +1,10 @@
 <template>
   <div class="inner">
+  	<div v-if="loading" class="preloader-wrap">
+  		<div class="preloader-inner">
+  			<img src="https://cdn-images-1.medium.com/max/800/1*inYwyq37FdvRPLRphTqwBA.gif">
+  		</div>
+  	</div>
   	<div class="filters-wrapp">
   		<div class="row"> 		
 		  	<div class="col-md-3">
@@ -114,6 +119,7 @@ export default {
     			currentGrade:'',
     			searchName:'',
     			message:'',
+    			loading: true,
     			switcher: false,
      			books:{},
      			booksDefault:{},
@@ -127,7 +133,6 @@ export default {
   	},
 	methods:{
 		getFilter(arr){
-			console.log('opa');
 		    var current = '';
 		    var unique = [];
 		    for (var i = 0; i < arr.length; i++) {
@@ -182,7 +187,7 @@ export default {
 	      	this.genres = this.getFilter(this.genres);
 	      	this.grades = this.getFilter(this.grades).sort((a,b) => a - b);
 	      	this.booksDefault = this.books.items;
-	      	console.log('we are here', this.booksDefault);
+	      	this.loading = false;
 	    });
 	}  
 }
@@ -190,7 +195,29 @@ export default {
 
 <style type="text/css">
 	.inner{
+		position: relative;
 		width: 100%;
+	}
+
+	.inner .preloader-wrap{
+		position: absolute;
+		width: 100%;
+		height: 100vh;
+		background: white;
+		opacity: 0.7;
+		text-align: center;
+		z-index: 10;
+	}
+
+	.inner .preloader-wrap .preloader-inner{
+		position: absolute;
+	    width: 256px;
+	    height: 256px;
+	    top: 0;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+	    margin: auto;
 	}
 
 	.hidden{
