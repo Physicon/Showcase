@@ -1,10 +1,8 @@
 <template>
   <div id="app">
     <div class="int-cont">
-      <div class="container pt-5">      
-        <div class="row">
-          <Showcase></Showcase>
-        </div>
+      <div class="container pt-5">   
+        <Showcase></Showcase>
       </div>
     </div>      
   </div>

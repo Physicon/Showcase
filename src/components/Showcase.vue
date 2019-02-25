@@ -1,44 +1,83 @@
 <template>
   <div class="inner">
   	<div class="filters-wrapp">
-  		<div class="row">
+  		<div class="row"> 		
 		  	<div class="col-md-3">
-		  		{{currentSubject}}
-				<select v-model="currentSubject" @change="setFilter()">
-					<option value="" >Все предметы</option>
-					<option v-for="subject in subjects">
-				    	{{ subject }}
-					</option>
-				</select>
+		  		<div class="input-group">
+					<select 
+						v-model="currentSubject" 
+						@change="setFilter()" 
+						class="mb-3 form-control" 
+					>
+						<option value="" >Все предметы</option>
+						<option v-for="subject in subjects">
+					    	{{ subject }}
+						</option>
+					</select>
+				</div>	
 			</div>
 			<div class="col-md-3">
-				{{currentGenre}}
-				<select v-model="currentGenre" @change="setFilter()">
-					<option value="" >Все жанры</option>
-					<option v-for="genre in genres">
-				    	{{ genre }}
-					</option>
-				</select>
+				<div class="input-group">
+					<select 
+						v-model="currentGenre" 
+						@change="setFilter()"
+						class="mb-3 form-control" 
+					>
+						<option value="" >Все жанры</option>
+						<option v-for="genre in genres">
+					    	{{ genre }}
+						</option>
+					</select>
+				</div>	
 			</div>
 			<div class="col-md-3">
-				{{currentGrade}}
-				<select v-model="currentGrade" @change="setFilter()">
-					<option value="" >Все классы</option>
-					<option v-for="grade in grades">
-				    	{{ grade }}
-					</option>
-				</select>
+				<div class="input-group">
+					<select 
+						v-model="currentGrade"
+						@change="setFilter()"
+						class="mb-3 form-control" 
+					>
+						<option value="" >Все классы</option>
+						<option v-for="grade in grades">
+					    	{{ grade }}
+						</option>
+					</select>
+				</div>	
 			</div>
 			<div class="col-md-3">
 				<div class="input-group mb-3">
-				  	<input type="text" class="form-control" aria-describedby="button-addon2" @keyup.enter="setFilter()" v-model="searchName">
+				  	<input 
+				  		type="text" 
+				  		class="form-control" 
+				  		aria-describedby="button-addon2" 
+				  		@keyup.enter="setFilter()" 
+				  		v-model="searchName"
+				  		placeholder="Поиск" 
+				  	>
 				  	<div class="input-group-append">
-				    	<button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="setFilter()">Поиск</button>
+				    	<button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="setFilter()">Найти</button>
 				  	</div>
 				</div>
 			</div>
+			
 		</div>	
 	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="switcher-wrap mt-3">
+				<span>Рубли</span>
+				<label class="switch">
+				  <input 
+					  type="checkbox" 
+					  v-model="switcher"
+				  >
+				  <span class="slider round"></span>
+				</label>
+				<span>Бонусы</span>
+			</div>	
+		</div>	
+	</div>	
 
 	<ul class="items-list">
 		<li class="item" v-for="(book,index) in getData()">
@@ -47,11 +86,11 @@
 			</div>
 			<div class="item-info">
 				<div class="info-title">{{book.subject}}</div>
-				<div class="info-grade">{{book.grade}}</div>
+				<div class="info-grade">{{book.grade}} Класс</div>
 				<div class="info-genre">{{book.genre}}</div>
 				<div class="info-link hidden"></div>
-				<div class="info-price">{{book.price}} </div>
-				<div class="info-bonus hidden"></div>
+				<div v-if="switcher == false" class="info-price">Цена {{book.price}} </div>
+				<div v-else class="info-bonus">{{book.priceBonus}} Бонусов</div>
 			</div>
 		</li>		
 	</ul>		
@@ -71,6 +110,7 @@ export default {
     			currentGenre:'',
     			currentGrade:'',
     			searchName:'',
+    			switcher: false,
      			books:{},
      			booksDefault:{},
      			subjects:[],
@@ -147,6 +187,10 @@ export default {
 		display: none !important;
 	}
 
+	.filters-wrapp .row select{
+		width: 100%;
+	}
+
 	.items-list{
 	    overflow: hidden;
 	    display: -webkit-flex;
@@ -207,4 +251,71 @@ export default {
   	.items-list .item .item-img img{
   		max-width: 100%;
   	}
+
+  	.switch {
+	  	position: relative;
+	  	display: inline-block;
+	  	width: 60px;
+	  	height: 34px;
+	}
+	
+	.switch input {
+		opacity: 0;
+	  	width: 0;
+	  	height: 0;
+	}
+
+	.slider {
+	  	position: absolute;
+	  	cursor: pointer;
+	  	top: 0;
+	  	left: 0;
+	  	right: 0;
+	  	bottom: 0;
+	  	background-color: #ccc;
+	  	-webkit-transition: .4s;
+	  	transition: .4s;
+	}
+
+	.slider:before {
+	  	position: absolute;
+	  	content: "";
+	  	height: 26px;
+	  	width: 26px;
+	  	left: 4px;
+	  	bottom: 4px;
+	  	background-color: white;
+	  	-webkit-transition: .4s;
+	  	transition: .4s;
+	}
+
+	input:checked + .slider {
+	  	background-color: #2196F3;
+	}
+
+	input:focus + .slider {
+	  	box-shadow: 0 0 1px #2196F3;
+	}
+
+	input:checked + .slider:before {
+	  	-webkit-transform: translateX(26px);
+	  	-ms-transform: translateX(26px);
+	  	transform: translateX(26px);
+	}
+
+	.slider.round {
+		border-radius: 34px;
+	}
+
+	.slider.round:before {
+	  	border-radius: 50%;
+	}
+
+	.switcher-wrap label{
+		margin-bottom: 0;
+	}
+
+	.switcher-wrap span{
+		vertical-align: middle;
+	}
 </style>
