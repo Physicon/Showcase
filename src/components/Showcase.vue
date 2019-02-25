@@ -78,7 +78,9 @@
 			</div>	
 		</div>	
 	</div>	
-
+	<div class="message-wrap">
+		{{message}}
+	</div>
 	<ul class="items-list">
 		<li class="item" v-for="(book,index) in getData()">
 			<div class="item-img">
@@ -111,6 +113,7 @@ export default {
     			currentGenre:'',
     			currentGrade:'',
     			searchName:'',
+    			message:'',
     			switcher: false,
      			books:{},
      			booksDefault:{},
@@ -147,11 +150,17 @@ export default {
 					(
 						((tmp[i].subject == this.currentSubject) || (this.currentSubject == '')) && 
 						((tmp[i].genre == this.currentGenre) || (this.currentGenre == '')) && 
-						((tmp[i].grade == this.currentGrade) || (this.currentGrade == '')) &&
+						((tmp[i].grade.split(';').indexOf(this.currentGrade) != -1) || (this.currentGrade == '')) &&
 						((tmp[i].subject.toLowerCase() == this.searchName.toLowerCase())  || (this.searchName == ''))
 					)){
+
 					this.booksDefault.push(tmp[i]);
 				}
+			}
+			if (this.booksDefault.length > 0){
+				this.message = ''
+			}else{
+				this.message = 'Ничего не найдено'
 			}
 			return this.booksDefault;
 		}
@@ -318,5 +327,8 @@ export default {
 
 	.switcher-wrap span{
 		vertical-align: middle;
+	}
+	.message-wrap{
+		text-align: center;
 	}
 </style>
