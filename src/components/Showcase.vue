@@ -166,7 +166,7 @@ export default {
 		}
 	},
 	created(){
-	    const url = 'http://krapipl.imumk.ru:8082/api/mobilev1/update';
+	    const url = 'https://cors-anywhere.herokuapp.com/http://krapipl.imumk.ru:8082/api/mobilev1/update';
 		const obj = {
 			data: ''
 		}
