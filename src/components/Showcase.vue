@@ -31,9 +31,9 @@
 			</div>
 			<div class="col-md-3">
 				<div class="input-group mb-3">
-				  	<input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2">
+				  	<input type="text" class="form-control" aria-describedby="button-addon2" @keyup.enter="setFilter()" v-model="searchName">
 				  	<div class="input-group-append">
-				    	<button class="btn btn-outline-secondary" type="button" id="button-addon2">Поиск</button>
+				    	<button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="setFilter()">Поиск</button>
 				  	</div>
 				</div>
 			</div>
@@ -70,6 +70,7 @@ export default {
     			currentSubject:'',
     			currentGenre:'',
     			currentGrade:'',
+    			searchName:'',
      			books:{},
      			booksDefault:{},
      			subjects:[],
@@ -97,29 +98,21 @@ export default {
 			return this.booksDefault;
 		},
 		setFilter(){
-			var filtered = [];
 			this.booksDefault = [];
 			var tmp = [];
 			tmp =  this.books.items;
-			console.log('book-', tmp);
-			console.log('pre - filtered',JSON.stringify(filtered));
 			for (var i = 0; i < tmp.length; i++) {
-				console.log('fafa-', tmp[i]);
 				if(
 					(
 						((tmp[i].subject == this.currentSubject) || (this.currentSubject == '')) && 
 						((tmp[i].genre == this.currentGenre) || (this.currentGenre == '')) && 
-						((tmp[i].grade == this.currentGrade) || (this.currentGrade == ''))
+						((tmp[i].grade == this.currentGrade) || (this.currentGrade == '')) &&
+						((tmp[i].subject.toLowerCase() == this.searchName.toLowerCase())  || (this.searchName == ''))
 					)){
-					//filtered.push(tmp[i]);
 					this.booksDefault.push(tmp[i]);
 				}
 			}
-			console.log('after - ',JSON.stringify(this.booksDefault));
-			//this.booksDefault = this.booksDefault.splice(0,this.booksDefault.length)
 			return this.booksDefault;
-			
-			//console.log(JSON.stringify(filtered));
 		}
 	},
 	created(){
