@@ -85,8 +85,9 @@
 				<img :src="imageLink + book.courseId">
 			</div>
 			<div class="item-info">
-				<div class="info-title">{{book.subject}}</div>
-				<div class="info-grade">{{book.grade}} Класс</div>
+				<div class="info-title">{{book.subject}}</div>				
+				<div v-if="book.grade.split(';').length > 1" class="info-grade">{{book.grade.split(';')[0] }} - {{book.grade.split(';').pop()}} Класс</div>
+				<div v-else class="info-grade">{{book.grade}} Класс</div>
 				<div class="info-genre">{{book.genre}}</div>
 				<div class="info-link hidden"></div>
 				<div v-if="switcher == false" class="info-price">Цена {{book.price}} </div>
@@ -290,11 +291,11 @@ export default {
 	}
 
 	input:checked + .slider {
-	  	background-color: #2196F3;
+	  	/*background-color: #2196F3;*/
 	}
 
 	input:focus + .slider {
-	  	box-shadow: 0 0 1px #2196F3;
+	  	/*box-shadow: 0 0 1px #2196F3;*/
 	}
 
 	input:checked + .slider:before {
